@@ -122,7 +122,7 @@
 <?php
 $i=1;
 foreach($model->getPhotosList($model->id) as $val) { ?>
-    <div class="col-md-3 fileupload-new thumbnail" style="text-align:center;">
+    <div class="col-md-12 fileupload-new thumbnail" style="text-align:center;">
         <div class="row">
             <div class="fileupload-new thumbnail" style="text-align:center;">
                 <img src="/uploads/projects/list/<?=$model->id?>/<?=$val?>" width="80%" id="Img<?= $i; ?>">
