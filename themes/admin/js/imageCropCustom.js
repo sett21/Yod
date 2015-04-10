@@ -1,15 +1,11 @@
-var imageX;
-var imageY;
-var imageWidth;
-var imageHeight;
-var jcrop_api;
-var currentImage = 1;
+var imageX, imageY, imageWidth, imageHeight, jcrop_api, currentImage, boundx, boundy;
 
 function cropImage(objName, realwidth, realheight, curImg){
     currentImage = curImg;
     $('#imgOptions' + currentImage).hide();
     $('#imgCropCancel' + currentImage).show();
-    $('#'+objName).css("position", "absolute").animate({
+    // $('#cropPop').modal();
+    $('#'+objName).animate({
         width: realwidth,
         height: realheight,
     }, 300, function() {
@@ -21,7 +17,7 @@ function cropImage(objName, realwidth, realheight, curImg){
             // maxSize: [100, 100], 
             aspectRatio: 1, //square
         });
-    });     
+    });
 }
 
 function setCoords(c)
@@ -40,28 +36,28 @@ function setCoords(c)
 
 function saveCrop(module, src, objName){
     $.post( "/admin/" + module + "/imageedit/", { action: "crop", src: src, x: imageX, y: imageY, w: imageWidth, h: imageHeight })
-      .done(function( data ) {
-        var size = JSON.parse(data);
+        .done(function( data ) {
+            var size = JSON.parse(data);
 
-        jcrop_api.destroy();
+            jcrop_api.destroy();
 
-        $("#cropLink" + currentImage).attr('href', 'javascript:  cropImage(\'mainImg\', ' + size[0] + ', ' + size[1] + ')');
+            $("#cropLink" + currentImage).attr('href', 'javascript:  cropImage(\'mainImg\', ' + size[0] + ', ' + size[1] + ')');
 
-        d = new Date();
-        $("#"+objName).attr("src", src+'?'+d.getTime());
-        $('#'+objName).css('height', '150'); 
-        $('#'+objName).css('width', 'auto'); 
-        $('#imgCropOption' + currentImage).hide();     
-        $('#imgCropCancel' + currentImage).hide();
-        $('#imgOptions' + currentImage).show();
-    });    
+            d = new Date();
+            $("#"+objName).attr("src", src+'?'+d.getTime());
+            $('#'+objName).css('height', '150');
+            $('#'+objName).css('width', 'auto');
+            $('#imgCropOption' + currentImage).hide();
+            $('#imgCropCancel' + currentImage).hide();
+            $('#imgOptions' + currentImage).show();
+        });
 }
 
 function cancelCrop(objName){
-    $('#'+objName).css('height', '150'); 
-    $('#'+objName).css('width', 'auto'); 
+    $('#'+objName).css('height', '150');
+    $('#'+objName).css('width', 'auto');
     jcrop_api.destroy();
-    $('#imgCropOption' + currentImage).hide();        
+    $('#imgCropOption' + currentImage).hide();
     $('#imgCropCancel' + currentImage).hide();
     $('#imgOptions' + currentImage).show();
 }
